@@ -1,0 +1,35 @@
+#!/bin/bash
+
+source venv/bin/activate
+export FLASK_APP=run.py
+export FLASK_ENV='development'
+
+if [ $# -gt 0 ]; then
+
+  if [[ $1 =~ "c" ]]; then
+    echo "Create tables"
+    python3 ./create_tables.py
+  fi
+
+  if [[ $1 =~ "l" ]]; then
+    echo "Load fixtures"
+    python3 ./load_fixtures.py
+  fi
+
+  if [[ $1 =~ "r" ]]; then
+    echo "Start app"
+    flask run
+  fi
+
+  if [[ $1 =~ "h" ]]; then
+    echo "./run.sh      - Run app"
+    echo "./run.sh c    - Create tables"
+    echo "./run.sh l    - Load fixtures"
+    echo "./run.sh r    - Run app"
+    echo "You can combine params:"
+    echo "./run.sh clr  - Create tables, load fixtures and run app"
+  fi
+
+else
+  flask run
+fi

@@ -1,6 +1,6 @@
-from project.config import config
-from project.models import Genre
-from project.server import create_app, db
+from app.config import config
+from app.models import Genre
+from app.server import create_app, db
 
 app = create_app(config)
 

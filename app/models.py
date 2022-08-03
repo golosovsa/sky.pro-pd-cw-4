@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String
 
-from project.setup.db import models
+from app.setup.db import models
 
 
 class Genre(models.Base):

@@ -3,11 +3,11 @@ from typing import Any, Dict, List, Type
 
 from sqlalchemy.exc import IntegrityError
 
-from project.config import config
-from project.models import Genre
-from project.server import create_app
-from project.setup.db import db, models
-from project.utils import read_json
+from app.config import config
+from app.models import Genre
+from app.server import create_app
+from app.setup.db import db, models
+from app.utils import read_json
 
 
 def load_data(data: List[Dict[str, Any]], model: Type[models.Base]) -> None:
