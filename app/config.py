@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 from typing import Type
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path.cwd()
 
 
 class BaseConfig:
@@ -33,7 +33,7 @@ class TestingConfig(BaseConfig):
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
     SQLALCHEMY_ECHO = True
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + BASE_DIR.joinpath('app.db').as_posix()
+    SQLALCHEMY_DATABASE_URI = "sqlite:///" + (BASE_DIR / "app.db").as_posix()
 
 
 class ProductionConfig(BaseConfig):

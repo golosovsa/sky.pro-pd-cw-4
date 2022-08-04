@@ -6,7 +6,8 @@ from sqlalchemy.exc import IntegrityError
 from app.config import config
 from app.models import Genre
 from app.server import create_app
-from app.setup.db import db, models
+from app.setup.db import db
+from app.dao import models
 from app.utils import read_json
 
 

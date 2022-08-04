@@ -6,6 +6,11 @@ export FLASK_ENV='development'
 
 if [ $# -gt 0 ]; then
 
+  if [[ $1 =~ "d" ]]; then
+    echo "Drop tables"
+    python3 ./drop_tables.py
+  fi
+
   if [[ $1 =~ "c" ]]; then
     echo "Create tables"
     python3 ./create_tables.py
@@ -23,11 +28,12 @@ if [ $# -gt 0 ]; then
 
   if [[ $1 =~ "h" ]]; then
     echo "./run.sh      - Run app"
+    echo "./run.sh d    - Drop tables"
     echo "./run.sh c    - Create tables"
     echo "./run.sh l    - Load fixtures"
     echo "./run.sh r    - Run app"
     echo "You can combine params:"
-    echo "./run.sh clr  - Create tables, load fixtures and run app"
+    echo "./run.sh dclr  - Drop tables, cechoreate tables, load fixtures and run app"
   fi
 
 else
