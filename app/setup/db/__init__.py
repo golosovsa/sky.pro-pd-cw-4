@@ -1,7 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
-from .models import Base, BaseWithID, BaseManyToMany
-
-db = SQLAlchemy()
+from .models import db, Base, BaseWithID, BaseManyToMany
 
 __all__ = [
     "db",

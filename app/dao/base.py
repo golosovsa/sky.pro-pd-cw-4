@@ -31,7 +31,7 @@ class BaseDAO(Generic[T]):
         """ Check data for unknown fields and not enough fields """
         return self.check_partially_data(data) and len(data) == len(self.__updatable_fields__)
 
-    def get_by_id(self, pk: int) -> Optional[T]:
+    def get_by_id(self, pk: int or tuple) -> Optional[T]:
         """ Get model by pk """
         return self._db_session.query(self.__model__).get(pk)
 
@@ -47,9 +47,8 @@ class BaseDAO(Generic[T]):
 
     def create(self, model: Base):
         """ Create model """
-        with self._db_session() as session:
-            session.add(model)
-            session.commit()
+        self._db_session.add(model)
+        self._db_session.commit()
         return model
 
     update = create
@@ -57,6 +56,5 @@ class BaseDAO(Generic[T]):
 
     def delete(self, model: Base):
         """ Delete model """
-        with self._db_session() as session:
-            session.delete(model)
-            session.commit()
+        self._db_session.delete(model)
+        self._db_session.commit()

@@ -5,7 +5,7 @@
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
-from app.setup.db.models import BaseWithID
+from app.setup.db.models import BaseWithID, db
 
 
 class Genre(BaseWithID):
@@ -14,3 +14,4 @@ class Genre(BaseWithID):
     name = Column(String(100), unique=True, nullable=False)
     # one to many
     movies = relationship("Movie", back_populates="genre")
+

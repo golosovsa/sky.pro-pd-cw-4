@@ -1,5 +1,5 @@
 from app.config import config
-from app.models import Genre
+from app.dao.models import Genre, Director, Movie, FavoriteMovies, User
 from app.server import create_app, db
 
 app = create_app(config)
@@ -10,4 +10,8 @@ def shell():
     return {
         "db": db,
         "Genre": Genre,
+        "Director": Director,
+        "Movie": Movie,
+        "FavoriteMovies": FavoriteMovies,
+        "User": User,
     }

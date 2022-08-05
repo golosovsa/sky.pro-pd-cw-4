@@ -1,19 +1,29 @@
-from sqlalchemy import Column, DateTime, func, BigInteger
+import datetime
+from random import randint
 
-from app.setup.db import db
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, DateTime, func, Integer, BigInteger
+
+db = SQLAlchemy()
+
+KeyType = Integer
 
 
 class Base(db.Model):
     __abstract__ = True
 
-    created = Column(DateTime, nullable=False, default=func.now())
+    created = Column(
+        DateTime,
+        nullable=False,
+        default=lambda: datetime.datetime.now() - datetime.timedelta(minutes=randint(0, 100_000))
+    )
     updated = Column(DateTime, default=func.now(), onupdate=func.now())
 
 
 class BaseWithID(Base):
     __abstract__ = True
 
-    id = Column(BigInteger, primary_key=True, autoincrement=True)
+    id = Column(KeyType, primary_key=True, autoincrement=True)
 
 
 class BaseManyToMany(Base):

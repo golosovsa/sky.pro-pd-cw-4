@@ -1,6 +1,6 @@
 import pytest
 
-from app.models import Genre
+from app.dao.models import Genre
 
 
 class TestGenresView:
@@ -9,6 +9,7 @@ class TestGenresView:
         obj = Genre(name="genre")
         db.session.add(obj)
         db.session.commit()
+        print(obj.id)
         return obj
 
     def test_many(self, client, genre):
@@ -26,10 +27,10 @@ class TestGenresView:
         assert len(response.json) == 0
 
     def test_genre(self, client, genre):
-        response = client.get("/genres/1/")
+        response = client.get(f"/genres/1/")
         assert response.status_code == 200
         assert response.json == {"id": genre.id, "name": genre.name}
 
     def test_genre_not_found(self, client, genre):
-        response = client.get("/genres/2/")
+        response = client.get("/genres/999/")
         assert response.status_code == 404

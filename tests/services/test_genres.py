@@ -3,14 +3,14 @@ from unittest.mock import patch
 import pytest
 
 from app.exceptions import ItemNotFound
-from app.models import Genre
-from app.services import GenresService
+from app.dao.models import Genre
+from app.services import GenreService
 
 
 class TestGenresService:
 
     @pytest.fixture()
-    @patch('app.dao.GenresDAO')
+    @patch('app.dao.GenreDAO')
     def genres_dao_mock(self, dao_mock):
         dao = dao_mock()
         dao.get_by_id.return_value = Genre(id=1, name='test_genre')
@@ -22,7 +22,7 @@ class TestGenresService:
 
     @pytest.fixture()
     def genres_service(self, genres_dao_mock):
-        return GenresService(dao=genres_dao_mock)
+        return GenreService(dao=genres_dao_mock)
 
     @pytest.fixture
     def genre(self, db):
