@@ -7,7 +7,8 @@ BASE_DIR = Path.cwd()
 
 
 class BaseConfig:
-    SECRET_KEY = os.getenv('SECRET_KEY', 'you-will-never-guess')
+    SECRET_KEY = os.getenv('SECRET_KEY', 'rZwVQ2Cpz7R89Bzj')
+    JWT_ALGORITHM = "HS256"
     JSON_AS_ASCII = False
 
     ITEMS_PER_PAGE = 12

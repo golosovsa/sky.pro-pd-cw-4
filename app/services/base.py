@@ -4,9 +4,10 @@
 """
 
 from typing import Optional, List, TypeVar, Generic, Tuple
+from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
 from app.dao.base import BaseDAO
-from app.exceptions import ItemNotFound, BadRequestData
+from app.exceptions import ItemNotFound, BadRequestData, BaseServiceError
 from app.setup.db import Base
 
 T = TypeVar("T", bound=BaseDAO)
@@ -30,7 +31,15 @@ class BaseService(Generic[T]):
         """ Create model """
         if not self._dao.check_data(data):
             raise BadRequestData()
-        return self._dao.create(self._dao.__model__(**data))
+        try:
+            return self._dao.create(self._dao.__model__(**data))
+
+        except IntegrityError as e:
+            if "UNIQUE constraint failed: users.email" in str(e):
+                raise BadRequestData("A user with the same email address already exists")
+            raise BaseServiceError("Something went wrong")
+        except SQLAlchemyError:
+            raise BaseServiceError()
 
     def update(self, pk: int or tuple, data: dict) -> Base:
         """ Update model """
