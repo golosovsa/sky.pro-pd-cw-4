@@ -5,6 +5,7 @@
 from typing import Optional, List
 
 from .base import BaseService
+from app.exceptions import BadRequestData
 from app.dao import MovieDAO
 from ..setup.db import Base
 
@@ -19,3 +20,4 @@ class MovieService(BaseService[MovieDAO]):
             return super(MovieService, self).get_all(page=page)
         if isinstance(status, str) and status.lower() == "new":
             return self._dao.get_all_and_order_by_newest(page=page)
+        raise BadRequestData()

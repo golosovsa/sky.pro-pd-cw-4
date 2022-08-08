@@ -7,23 +7,23 @@ from app.setup.api.parsers import page_parser
 api = Namespace('favorites', description="Любимые фильмы")
 
 
-@api.route('/movies/')
+@api.route('/movies/<int:movie_id>')
 class FavoriteMoviesView(Resource):
     @api.expect(page_parser)
     @api.marshal_with(favorite_movie_schema, as_list=True, code=200, description='OK')
-    def get(self):
+    def get(self, movie_id):
         """
         Get all directors.
         """
-        return favorite_movie_service.get_all(**page_parser.parse_args())
+        return favorite_movie_service.get_all_by_movie_id(movie_id, **page_parser.parse_args())
 
 
-@api.route('/movies/<int:director_id>/')
+@api.route('/users/<int:user_id>/')
 class FavoriteMovieView(Resource):
-    @api.response(404, 'Not Found')
-    @api.marshal_with(favorite_movie_schema, code=200, description='OK')
-    def get(self, director_id: int):
+    @api.expect(page_parser)
+    @api.marshal_with(favorite_movie_schema, as_list=True, code=200, description='OK')
+    def get(self, user_id: int):
         """
         Get director by id.
         """
-        return favorite_movie_service.get_item(director_id)
+        return favorite_movie_service.get_all_by_user_id(user_id, **page_parser.parse_args())

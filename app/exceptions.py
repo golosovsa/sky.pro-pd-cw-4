@@ -10,5 +10,5 @@ class BadRequestParameters(BaseServiceError):
     code = 400
 
 
-class BadRequestJSON(BaseServiceError):
+class BadRequestData(BaseServiceError):
     code = 400

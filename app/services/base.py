@@ -3,10 +3,10 @@
     Base service class
 """
 
-from typing import Optional, List, TypeVar, Generic
+from typing import Optional, List, TypeVar, Generic, Tuple
 
 from app.dao.base import BaseDAO
-from app.exceptions import ItemNotFound, BadRequestJSON
+from app.exceptions import ItemNotFound, BadRequestData
 from app.setup.db import Base
 
 T = TypeVar("T", bound=BaseDAO)
@@ -16,7 +16,7 @@ class BaseService(Generic[T]):
     def __init__(self, dao: T):
         self._dao = dao
 
-    def get_item(self, pk: int) -> Base:
+    def get_item(self, pk: int or Tuple[int, int]) -> Base:
         """ Get one model """
         if genre := self._dao.get_by_id(pk):
             return genre
@@ -29,13 +29,13 @@ class BaseService(Generic[T]):
     def create(self, data: dict) -> Base:
         """ Create model """
         if not self._dao.check_data(data):
-            raise BadRequestJSON()
+            raise BadRequestData()
         return self._dao.create(self._dao.__model__(**data))
 
-    def update(self, pk: int, data: dict) -> Base:
+    def update(self, pk: int or tuple, data: dict) -> Base:
         """ Update model """
         if not self._dao.check_data(data):
-            raise BadRequestJSON()
+            raise BadRequestData()
 
         model = self.get_item(pk)
         for field in self._dao.__updatable_fields__:
@@ -46,7 +46,7 @@ class BaseService(Generic[T]):
     def partially_update(self, pk: int, data: dict) -> Base:
         """ Partially update model """
         if not self._dao.check_partially_data(data):
-            raise BadRequestJSON
+            raise BadRequestData
 
         model = self.get_item(pk)
         for field in self._dao.__updatable_fields__:
