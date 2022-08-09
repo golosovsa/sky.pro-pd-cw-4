@@ -6,7 +6,7 @@ import calendar
 
 import jwt
 from jwt.exceptions import PyJWTError
-from flask import current_app
+from flask import current_app, request, abort
 
 
 def __generate_password_digest(password: str) -> bytes:
@@ -50,3 +50,18 @@ def decode_jwt_token(token: str) -> dict or None:
         return None
 
 
+def login_required(func):
+    def wrapper(*args, **kwargs):
+        if "Authorization" not in request.headers:
+            abort(401)
+        data = request.headers['Authorization']
+        token = data.split("Bearer ")[-1]
+        token_data = decode_jwt_token(token)
+        if not token_data:
+            abort(401)
+
+        kwargs.update({"token_data": token_data})
+
+        return func(*args, **kwargs)
+
+    return wrapper

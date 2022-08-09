@@ -9,6 +9,7 @@ api = Namespace('directors', description="Продюсеры")
 
 @api.route('/')
 class DirectorsView(Resource):
+
     @api.expect(page_parser)
     @api.marshal_with(director_schema, as_list=True, code=200, description='OK')
     def get(self):

@@ -33,3 +33,10 @@ favorite_movie_schema: Model = api.model("Любимые фильмы", {
     "user_id": fields.Integer(required=True, example=1),
     "movie_id": fields.Integer(required=True, example=1),
 })
+
+user_schema: Model = api.model("Информация о пользователе", {
+    "email": fields.String(required=True, example="mail@mail.ru"),
+    "name": fields.String(required=True, example="Tom"),
+    "surname": fields.String(required=True, example="Ellison"),
+    "favorite_genre_id": fields.Integer(required=True, example=1),
+})

@@ -8,6 +8,7 @@ from .base import BaseService
 from app.dao import UserDAO
 from app.exceptions import BadRequestData
 from app.tools.security import generate_password_hash, compose_passwords, encode_jwt_token, decode_jwt_token
+from app.dao.models import User
 
 
 class UserService(BaseService[UserDAO]):
@@ -86,3 +87,43 @@ class UserService(BaseService[UserDAO]):
             raise BadRequestData("Invalid refresh token")
 
         return self.create_tokens(user)
+
+    def get(self, data=None):
+        if not data or "id" not in data or "email" not in data or "exp" not in data or len(data) != 3:
+            raise BadRequestData("Invalid token data")
+
+        user = self.get_item(data["id"])
+        if not user or user.email != data["email"]:
+            raise BadRequestData("Invalid token data")
+
+        return user
+
+    def patch(self, token_data: dict, data: dict) -> User:
+
+        user = self.get(token_data)
+
+        if "password" in data or "email" in data:
+            raise BadRequestData("Invalid patch data")
+
+        return self.partially_update(user.id, data)
+
+    def set_password(self, token_data, password_1, password_2):
+        print(password_1, password_2)
+        if not password_1 or not password_2:
+            BadRequestData("Invalid password data")
+
+        user = self.get(token_data)
+
+        if not compose_passwords(
+                generate_password_hash(password_1),
+                user.password
+        ):
+            raise BadRequestData("Invalid user password")
+
+        if self.calc_password_difficulty(password_2) < 4:
+            raise BadRequestData("Simple password")
+
+        data = {
+            "password": generate_password_hash(password_2)
+        }
+        return self.partially_update(user.id, data)

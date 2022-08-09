@@ -25,5 +25,7 @@ class AuthRegistrationView(Resource):
     @api.response(400, "Bad request")
     def put(self):
         refresh_token = request.form.get("refresh_token", None)
-        return user_service.refresh(refresh_token)
+        return user_service.refresh(refresh_token), 200
+
+
 
