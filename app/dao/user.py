@@ -16,7 +16,7 @@ class UserDAO(BaseDAO[User]):
         "password",
         "name",
         "surname",
-        "favorite_genre_id",
+        "favourite_genre",
     ]
 
     def get_by_email(self, email: str) -> User:

@@ -18,7 +18,7 @@ class TestUsersDAO:
             password="User_1_password",
             name="User_1",
             surname="User_1",
-            favorite_genre_id=1,
+            favourite_genre=1,
         )
         db.session.add(model)
         db.session.commit()
@@ -31,7 +31,7 @@ class TestUsersDAO:
             password="User_2_password",
             name="User_2",
             surname="User_2",
-            favorite_genre_id=2,
+            favourite_genre=2,
         )
         db.session.add(model)
         db.session.commit()
@@ -57,7 +57,7 @@ class TestUsersDAO:
         assert "password" in users_dao.__updatable_fields__
         assert "name" in users_dao.__updatable_fields__
         assert "surname" in users_dao.__updatable_fields__
-        assert "favorite_genre_id" in users_dao.__updatable_fields__
+        assert "favourite_genre" in users_dao.__updatable_fields__
 
     def test_users_create(self, users_dao):
         user = User(
@@ -65,7 +65,7 @@ class TestUsersDAO:
             password="User_test_password",
             name="User_test",
             surname="User_test",
-            favorite_genre_id=2,
+            favourite_genre=2,
         )
         users_dao.create(user)
         assert users_dao.get_by_id(user.id) == user
@@ -76,7 +76,7 @@ class TestUsersDAO:
             password="User_test_password",
             name="User_test",
             surname="User_test",
-            favorite_genre_id=999,
+            favourite_genre=999,
         )
         with pytest.raises(IntegrityError):
             users_dao.create(user)
@@ -91,7 +91,7 @@ class TestUsersDAO:
         user_1.password = "test_update_user"
         user_1.name = "test_update_user"
         user_1.surname = "test_update_user"
-        user_1.favorite_genre_id = 999
+        user_1.favourite_genre = 999
 
         users_dao.update(user_1)
 
@@ -101,9 +101,15 @@ class TestUsersDAO:
         assert user.password == "test_update_user"
         assert user.name == "test_update_user"
         assert user.surname == "test_update_user"
-        assert user.favorite_genre_id == 999
+        assert user.favourite_genre == 999
 
     def test_users_update_uniq(self, users_dao, user_1, user_2):
         user_1.email = "User_2"
         with pytest.raises(IntegrityError):
             users_dao.update(user_1)
+
+    def test_users_get_by_email(self, users_dao, user_1, user_2):
+        model_1 = users_dao.get_by_email("User_1")
+        model_2 = users_dao.get_by_email("User_2")
+        assert model_1 == user_1
+        assert model_2 == user_2

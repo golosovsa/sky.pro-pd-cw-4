@@ -9,7 +9,6 @@ class TestDirectorsView:
         obj = Director(name="director")
         db.session.add(obj)
         db.session.commit()
-        print(obj.id)
         return obj
 
     def test_many(self, client, director):

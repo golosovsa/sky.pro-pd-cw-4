@@ -27,16 +27,19 @@ movie_schema: Model = api.model("Фильм", {
     "rating": fields.Float(example=7.7),
     "genre_id": fields.Integer(example=1),
     "director_id": fields.Integer(example=1),
+    "director": fields.Nested(director_schema),
+    "genre": fields.Nested(genre_schema),
 })
 
-favorite_movie_schema: Model = api.model("Любимые фильмы", {
+favourite_movie_schema: Model = api.model("Любимые фильмы", {
     "user_id": fields.Integer(required=True, example=1),
     "movie_id": fields.Integer(required=True, example=1),
 })
 
 user_schema: Model = api.model("Информация о пользователе", {
+    "id": fields.Integer(required=True, example=1),
     "email": fields.String(required=True, example="mail@mail.ru"),
     "name": fields.String(required=True, example="Tom"),
     "surname": fields.String(required=True, example="Ellison"),
-    "favorite_genre_id": fields.Integer(required=True, example=1),
+    "favourite_genre": fields.Integer(required=True, example=1),
 })

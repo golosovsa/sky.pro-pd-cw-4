@@ -14,8 +14,6 @@ class UserView(Resource):
     @api.marshal_with(user_schema, code=200, description='OK')
     def get(self, token_data):
         answer = user_service.get(token_data)
-        print(token_data)
-        print(answer)
         return answer
 
     @login_required
@@ -29,9 +27,7 @@ class UserView(Resource):
 class UserPasswordView(Resource):
     @login_required
     def put(self, token_data):
-        password_1 = request.form.get("password_1")
-        password_2 = request.form.get("password_2")
-
-        user_service.set_password(token_data, password_1, password_2)
+        data = request.json
+        user_service.set_password(token_data, data)
 
         return "OK", 201

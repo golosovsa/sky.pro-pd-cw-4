@@ -3,7 +3,7 @@ from .director import DirectorDAO
 from .genre import GenreDAO
 from .user import UserDAO
 from .movie import MovieDAO
-from .favorite_movie import FavoriteMovieDAO
+from .favourite_movie import FavouriteMovieDAO
 
 __all__ = [
     "BaseDAO",
@@ -11,5 +11,5 @@ __all__ = [
     "GenreDAO",
     "UserDAO",
     "MovieDAO",
-    "FavoriteMovieDAO",
+    "FavouriteMovieDAO",
 ]

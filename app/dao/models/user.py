@@ -15,9 +15,9 @@ class User(BaseWithID):
     password = Column(String, nullable=False)
     name = Column(String(40))
     surname = Column(String(40))
-    favorite_genre_id = Column(KeyType, ForeignKey("genres.id"))
+    favourite_genre = Column(KeyType, ForeignKey("genres.id"))
     # many to one
-    favorite_genre = relationship("Genre")
+    favourite_genre_object = relationship("Genre")
     # maby to many
-    favorite_movies = relationship("Movie", secondary="favorite_movies")
+    favourite_movies = relationship("Movie", secondary="favorite_movies")
 

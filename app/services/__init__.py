@@ -1,5 +1,5 @@
 from .movie import MovieService
-from .favorite_movie import FavoriteMovieService
+from .favorite_movie import FavouriteMovieService
 from .user import UserService
 from .genre import GenreService
 from .director import DirectorService
@@ -7,7 +7,7 @@ from .director import DirectorService
 
 __all__ = [
     "MovieService",
-    "FavoriteMovieService",
+    "FavouriteMovieService",
     "UserService",
     "GenreService",
     "DirectorService",

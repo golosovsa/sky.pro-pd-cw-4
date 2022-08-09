@@ -18,7 +18,6 @@ class TestMoviesView:
         )
         db.session.add(obj)
         db.session.commit()
-        print(obj.id)
         return obj
 
     def test_many(self, client, movie):
@@ -33,6 +32,14 @@ class TestMoviesView:
             "rating": movie.rating,
             "genre_id": movie.genre_id,
             "director_id": movie.director_id,
+            "director": {
+                "id": None,
+                "name": None
+            },
+            "genre": {
+                "id": None,
+                "name": None
+            },
         }]
 
     def test_movie_pages(self, client, movie):
@@ -56,6 +63,14 @@ class TestMoviesView:
             "rating": movie.rating,
             "genre_id": movie.genre_id,
             "director_id": movie.director_id,
+            "director": {
+                "id": None,
+                "name": None
+            },
+            "genre": {
+                "id": None,
+                "name": None
+            },
         }
 
     def test_movie_not_found(self, client, movie):

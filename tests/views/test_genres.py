@@ -9,7 +9,6 @@ class TestGenresView:
         obj = Genre(name="genre")
         db.session.add(obj)
         db.session.commit()
-        print(obj.id)
         return obj
 
     def test_many(self, client, genre):

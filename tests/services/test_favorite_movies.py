@@ -1,22 +1,22 @@
 from unittest.mock import MagicMock
 import pytest
 
-from app.dao import FavoriteMovieDAO
+from app.dao import FavouriteMovieDAO
 from app.exceptions import ItemNotFound, BadRequestData
-from app.dao.models import FavoriteMovies
-from app.services import FavoriteMovieService
+from app.dao.models import FavouriteMovies
+from app.services import FavouriteMovieService
 
 
-class TestFavoriteMoviesService:
+class TestFavouriteMoviesService:
 
     @pytest.fixture()
     def favorite_movies_dao_mock(self):
 
         favorite_movies = {
-            (1, 4): FavoriteMovies(user_id=1, movie_id=4),
-            (2, 3): FavoriteMovies(user_id=2, movie_id=3),
-            (3, 2): FavoriteMovies(user_id=3, movie_id=2),
-            (4, 1): FavoriteMovies(user_id=4, movie_id=1),
+            (1, 4): FavouriteMovies(user_id=1, movie_id=4),
+            (2, 3): FavouriteMovies(user_id=2, movie_id=3),
+            (3, 2): FavouriteMovies(user_id=3, movie_id=2),
+            (4, 1): FavouriteMovies(user_id=4, movie_id=1),
         }
 
         def create(model):
@@ -41,7 +41,7 @@ class TestFavoriteMoviesService:
             ]
 
 
-        dao = FavoriteMovieDAO(None)
+        dao = FavouriteMovieDAO(None)
 
         dao.get_by_id = MagicMock(side_effect=favorite_movies.get)
         dao.get_all = MagicMock(return_value=list(favorite_movies.items()))
@@ -55,14 +55,14 @@ class TestFavoriteMoviesService:
 
     @pytest.fixture()
     def favorite_movies_service(self, favorite_movies_dao_mock):
-        return FavoriteMovieService(dao=favorite_movies_dao_mock)
+        return FavouriteMovieService(dao=favorite_movies_dao_mock)
 
     def test_get_favorite_movie(self, favorite_movies_service):
         model = favorite_movies_service.get_item((1, 4, ))
         assert model
         assert model.user_id == 1
         assert model.movie_id == 4
-        assert isinstance(model, FavoriteMovies)
+        assert isinstance(model, FavouriteMovies)
 
     def test_favorite_movie_not_found(self, favorite_movies_dao_mock, favorite_movies_service):
 

@@ -7,7 +7,7 @@ from sqlalchemy import Column, ForeignKey, BigInteger
 from app.setup.db.models import BaseManyToMany, KeyType
 
 
-class FavoriteMovies(BaseManyToMany):
+class FavouriteMovies(BaseManyToMany):
     __tablename__ = "favorite_movies"
 
     user_id = Column(KeyType, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True, autoincrement=False)

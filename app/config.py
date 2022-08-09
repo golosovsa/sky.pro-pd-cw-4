@@ -35,6 +35,7 @@ class DevelopmentConfig(BaseConfig):
     DEBUG = True
     SQLALCHEMY_ECHO = True
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + (BASE_DIR / "app.db").as_posix()
+    EXPLAIN_TEMPLATE_LOADING = True
 
 
 class ProductionConfig(BaseConfig):

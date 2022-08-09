@@ -3,6 +3,7 @@
     User service class
 """
 from string import punctuation
+from sqlalchemy.exc import SQLAlchemyError
 
 from .base import BaseService
 from app.dao import UserDAO
@@ -65,7 +66,13 @@ class UserService(BaseService[UserDAO]):
         if "email" not in data or "password" not in data:
             raise BadRequestData()
 
-        user = self._dao.get_by_email(data["email"])
+        try:
+            user = self._dao.get_by_email(data["email"])
+        except SQLAlchemyError:
+            raise BadRequestData("Invalid user email")
+
+        if user is None:
+            raise BadRequestData("Email not found")
 
         if not compose_passwords(
                 generate_password_hash(data["password"]),
@@ -102,13 +109,16 @@ class UserService(BaseService[UserDAO]):
 
         user = self.get(token_data)
 
-        if "password" in data or "email" in data:
+        if not data or "password" in data or "email" in data:
             raise BadRequestData("Invalid patch data")
 
         return self.partially_update(user.id, data)
 
-    def set_password(self, token_data, password_1, password_2):
-        print(password_1, password_2)
+    def set_password(self, token_data, data):
+
+        password_1 = data.get("old_password")
+        password_2 = data.get("new_password")
+
         if not password_1 or not password_2:
             BadRequestData("Invalid password data")
 
